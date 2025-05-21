@@ -48,7 +48,8 @@ namespace TodoApp.ViewModels
     }
 
     /// <summary>
-    /// Converts a boolean value to a color brush (gray for completed items).
+    /// Converts a boolean value to a color brush (gray for completed items, black for active items).
+    /// Used for text coloring.
     /// </summary>
     public class BoolToCompletedColorConverter : IValueConverter
     {
@@ -57,7 +58,23 @@ namespace TodoApp.ViewModels
             bool completed = value is bool b && b;
             return completed 
                 ? new SolidColorBrush(Color.Parse("#757575")) 
-                : new SolidColorBrush(Color.Parse("#202124"));
+                : new SolidColorBrush(Color.Parse("#202124"));  // Keep text black for active items
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Converts a boolean value to a color brush for borders (light gray for all items).
+    /// </summary>
+    public class BoolToBorderColorConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            return new SolidColorBrush(Color.Parse("#DDDDDD"));  // Light gray for all borders
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

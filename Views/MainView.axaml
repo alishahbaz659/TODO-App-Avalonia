@@ -76,7 +76,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Margin="0,8" Padding="16" Background="White" CornerRadius="8" 
-                                        BorderBrush="{Binding IsCompleted, Converter={StaticResource BoolToCompletedColorConverter}}"
+                                        BorderBrush="{Binding IsCompleted, Converter={StaticResource BoolToBorderColorConverter}}"
                                         BorderThickness="1">
                                     <Border.Transitions>
                                         <Transitions>

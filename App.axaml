@@ -26,6 +26,7 @@
         <vm:PriorityToColorConverter x:Key="PriorityToColorConverter"/>
         <vm:BoolToTextDecorationConverter x:Key="BoolToTextDecorationConverter"/>
         <vm:BoolToCompletedColorConverter x:Key="BoolToCompletedColorConverter"/>
+        <vm:BoolToBorderColorConverter x:Key="BoolToBorderColorConverter"/>
         <vm:CountToBoolConverter x:Key="CountToBoolConverter"/>
     </Application.Resources>
 

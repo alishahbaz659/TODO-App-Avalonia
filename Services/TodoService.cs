@@ -113,8 +113,8 @@ namespace TodoApp.Services
 
             _todos.Add(new TodoItem
             {
-                Title = "Create modern UI design",
-                Description = "Apply professional design principles with color theory and typography",
+                Title = "Implement clean code practices",
+                Description = "Apply SOLID principles for better maintainability and extensibility",
                 Priority = 0,
                 CreatedAt = DateTime.UtcNow.AddDays(-1)
             });
