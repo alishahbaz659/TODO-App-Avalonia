@@ -1,0 +1,122 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TodoApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="TodoApp.Views.MainView"
+             Background="{StaticResource BackgroundBrush}">
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <UserControl.Styles>
+        <!-- Hover effect for todo cards: just shadow -->
+        <Style Selector="ItemsControl Border:pointerover">
+            <Setter Property="BoxShadow" Value="0 6 18 0 #0003"/>
+        </Style>
+        <Style Selector="ItemsControl Border">
+            <Setter Property="BoxShadow" Value="0 2 8 0 #0002"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header and Input -->
+        <Border Grid.Row="0" Margin="20" Padding="20" Background="White" 
+                CornerRadius="10" BoxShadow="0 2 10 0 #0002">
+            <StackPanel Spacing="15">
+                <!-- Centered App Title -->
+                <TextBlock Text="📝 Todo App" FontSize="32" FontWeight="Bold" 
+                           Foreground="{StaticResource PrimaryBrush}"
+                           HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                
+                <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Center">
+                    <TextBox Watermark="Enter todo title" Text="{Binding NewTodoTitle}" Width="200"
+                             VerticalContentAlignment="Center"/>
+                    <TextBox Watermark="Enter description" Text="{Binding NewTodoDescription}" Width="300"
+                             VerticalContentAlignment="Center"/>
+                    <Button Content="Add Todo" Command="{Binding AddTodoCommand}">
+                        <Button.Transitions>
+                            <Transitions>
+                                <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                            </Transitions>
+                        </Button.Transitions>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Todo List -->
+        <Border Grid.Row="1" Margin="20" Background="White" CornerRadius="10" Padding="20" 
+                BoxShadow="0 2 10 0 #0002">
+            <ScrollViewer>
+                <StackPanel>
+                    <!-- Empty State -->
+                    <StackPanel IsVisible="{Binding Todos.Count, Converter={StaticResource CountToBoolConverter}}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Margin="0,40,0,0">
+                        <Border Background="#E6F4FF" CornerRadius="10" Padding="25,20" 
+                                BoxShadow="0 2 6 0 #0001" Width="400">
+                            <StackPanel Spacing="15" HorizontalAlignment="Center">
+                                <TextBlock Text="📋" FontSize="48" HorizontalAlignment="Center"/>
+                                <TextBlock Text="No Todos Yet!" 
+                                           Foreground="{StaticResource PrimaryBrush}"
+                                           FontSize="24" FontWeight="Bold" 
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock Text="Get started by adding your first task above" 
+                                           Foreground="{StaticResource TextBrush}"
+                                           FontSize="16" 
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Todo Items -->
+                    <ItemsControl ItemsSource="{Binding Todos}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,8" Padding="16" Background="White" CornerRadius="8" 
+                                        BorderBrush="{Binding IsCompleted, Converter={StaticResource BoolToCompletedColorConverter}}"
+                                        BorderThickness="1">
+                                    <Border.Transitions>
+                                        <Transitions>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.25"/>
+                                        </Transitions>
+                                    </Border.Transitions>
+                                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+                                        <!-- Priority Indicator and Checkbox -->
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="0,0,10,0">
+                                            <Ellipse Width="12" Height="12" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <Ellipse.Fill>
+                                                    <SolidColorBrush Color="{Binding Priority, Converter={StaticResource PriorityToColorConverter}}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <CheckBox IsChecked="{Binding IsCompleted}"
+                                                    Command="{Binding DataContext.ToggleTodoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                    CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                        
+                                        <!-- Todo Title and Description -->
+                                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5,0">
+                                            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"
+                                                     TextDecorations="{Binding IsCompleted, Converter={StaticResource BoolToTextDecorationConverter}}"
+                                                     Foreground="{Binding IsCompleted, Converter={StaticResource BoolToCompletedColorConverter}}"/>
+                                            <TextBlock Text="{Binding Description}" Opacity="0.7" FontSize="13" 
+                                                     TextWrapping="Wrap" Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                        
+                                        <!-- Delete Button (placed away from checkbox) -->
+                                        <Button Grid.Row="0" Grid.Column="2" 
+                                                Content="Delete" Background="{StaticResource DeleteBrush}" Foreground="White"
+                                                Command="{Binding DataContext.DeleteTodoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl> 
