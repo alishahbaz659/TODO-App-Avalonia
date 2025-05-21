@@ -18,8 +18,8 @@ A modern, cross-platform desktop Todo application built with Avalonia UI and C#.
 
 ## Features
 
-- Create, read, update, and delete Todo items
-- Priority levels with visual indicators (High/Medium/Low)
+- Create and delete Todo items
+- View color-coded priority indicators
 - Mark todos as complete with visual feedback
 - Modern UI with card-based design
 - Data persistence using in-memory storage
