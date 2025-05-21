@@ -4,6 +4,7 @@ obj/
 *.dll
 *.exe
 *.pdb
+publish/
 
 # IDE and editor folders
 .vs/
